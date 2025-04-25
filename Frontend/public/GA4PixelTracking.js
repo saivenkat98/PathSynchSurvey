@@ -3,6 +3,7 @@
   
     // --- Configuration ---
     var TRACKING_ENDPOINT = 'https://path-synch-survey-backend.vercel.app/track-event';
+  //  var TRACKING_ENDPOINT = 'http://localhost:3000/track-event';
   
     // --- Helper: Get or generate GA4 client ID ---
     function getClientId() {

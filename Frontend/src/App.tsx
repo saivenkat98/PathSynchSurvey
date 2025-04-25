@@ -34,7 +34,7 @@ function App() {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <a
-              href="https://pathsynch.com/request-demo"
+              href="https://meetings.hubspot.com/charles494?"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto bg-[#2B4C32] hover:bg-[#1a2e1e] text-white px-8 py-3 rounded-md font-medium transition-colors duration-200 flex items-center justify-center"
@@ -72,7 +72,7 @@ function App() {
             </a>
             <span>|</span>
             <a
-              href="https://pathsynch.com/request-demo"
+              href="https://meetings.hubspot.com/charles494?"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#2B4C32] hover:text-[#1a2e1e] transition-colors"
