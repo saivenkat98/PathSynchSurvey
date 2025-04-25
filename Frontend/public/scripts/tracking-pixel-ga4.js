@@ -1,9 +1,3 @@
-// GA4 Measurement Protocol Implementation
-const GA4_CONFIG = {
-  MEASUREMENT_ID: "G-HTYF1DDXEZ",
-  API_SECRET: "62fkMLaARdeFY8CBnT01iQ", // Will be replaced manually
-};
-
 // Helper to get or generate client ID
 const getClientId = () => {
   const match = document.cookie.match(/_ga=GA\d\.\d\.(\d+)/);
@@ -27,7 +21,7 @@ const sendEvent = async (eventName, params = {}) => {
   };
 
   try {
-    await fetch("http://localhost:3000/track-event", { // your backend URL
+    await fetch("https://path-synch-survey-backend.vercel.app/track-event", { // your backend URL
       method: "POST",
       body: JSON.stringify(payload),
       headers: { "Content-Type": "application/json" },

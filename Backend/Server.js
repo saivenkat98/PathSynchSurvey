@@ -6,7 +6,7 @@ const PORT = 3000;
 
 // Replace these with your actual GA4 credentials
 const MEASUREMENT_ID = "G-HTYF1DDXEZ";
-const API_SECRET = "62fkMLaARdeFY8CBnT01iQ";
+const API_SECRET = "2B0wmXRXSj6S46cXZcE8Jw";
 
 app.use(cors());
 app.use(express.json());
