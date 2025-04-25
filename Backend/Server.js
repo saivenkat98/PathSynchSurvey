@@ -8,7 +8,10 @@ const PORT = 3000;
 const MEASUREMENT_ID = "G-HTYF1DDXEZ";
 const API_SECRET = "2B0wmXRXSj6S46cXZcE8Jw";
 
-app.use(cors());
+app.use(cors({
+  origin: "https://path-synch-survey.vercel.app"
+}));
+
 app.use(express.json());
 
 app.post("/track-event", async (req, res) => {
