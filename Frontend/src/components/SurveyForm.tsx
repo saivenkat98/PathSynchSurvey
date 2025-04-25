@@ -6,6 +6,12 @@ import TextInput from './TextInput';
 import ConfirmationScreen from './ConfirmationScreen';
 import { Send } from 'lucide-react';
 
+declare global {
+  interface Window {
+    sendGA4Event: (eventName: string, params?: Record<string, any>) => void;
+  }
+}
+
 interface SurveyFormProps {
   speakerInfo: SpeakerInfo;
 }
@@ -71,31 +77,33 @@ const SurveyForm: React.FC<SurveyFormProps> = ({ speakerInfo }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
+    // 1️⃣ Validate
     if (!validateForm()) {
       return;
     }
-    
+    console.log(responses);
+    // 2️⃣ Fire the GA4 pixel
+    // window.sendGA4Event was exposed by your <script> in index.html
+    window.sendGA4Event('feedback_form_submitted', {
+      speaker_name: speakerInfo.name,
+      clarity: responses.clarity,
+      relevance: responses.relevance,
+      takeaway: responses.takeaway,
+      engagement: responses.engagement,
+      recommend: responses.recommend,
+      additional: responses.additional,
+    });
+  
+    // 3️⃣ Update UI
     setFormState('submitting');
-    
+  
+    // 4️⃣ (Optional) If you still need to POST to your own backend,
+    //    you can do it here. Otherwise just mark success:
     try {
-      const response = await fetch(`http://localhost:3000/track-event`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          speakerInfo,
-          responses,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit survey');
-      }
-
+      // await fetch( ... )  // your existing submit endpoint
       setFormState('success');
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -103,6 +111,42 @@ const SurveyForm: React.FC<SurveyFormProps> = ({ speakerInfo }) => {
       setFormState('form');
     }
   };
+  
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+    
+  //   if (!validateForm()) {
+  //     return;
+  //   }
+
+  //   sendEvent
+    
+  //   setFormState('submitting');
+    
+  //   // try {
+  //   //   const response = await fetch(`http://localhost:3000/track-event`, {
+  //   //     method: 'POST',
+  //   //     headers: {
+  //   //       'Content-Type': 'application/json',
+  //   //     },
+  //   //     body: JSON.stringify({
+  //   //       speakerInfo,
+  //   //       responses,
+  //   //     }),
+  //   //   });
+
+  //   //   if (!response.ok) {
+  //   //     throw new Error('Failed to submit survey');
+  //   //   }
+
+  //     setFormState('success');
+  //   // } catch (error) {
+  //   //   console.error('Error submitting form:', error);
+  //   //   setErrors({ form: 'An error occurred. Please try again.' });
+  //   //   setFormState('form');
+  //   // }
+  // };
 
   if (formState === 'success') {
     return <ConfirmationScreen speakerName={speakerInfo.name} />;
